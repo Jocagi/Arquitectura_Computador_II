@@ -1,0 +1,208 @@
+;Define CONFIG = 0x3F72
+
+;CONFIGUARACION
+	DATOADC EQU 0X21
+	TEMPERATURE EQU 0X22
+	PEOPLECOUNT EQU 0X23
+	PEOPLECOUNTAUX EQU 0X24
+	COUNT2 EQU 0X01
+
+;Inicio del programa en la posición cero de memoria
+	ORG 0x00
+
+INICIO
+	;CONFIGURACION ADC (Temepratura)
+
+	BCF STATUS, RP0 	;Ir a banco 0
+	BCF STATUS, RP1
+
+	;Configurar ADCON0
+	MOVLW b'01000001'	;A/D conversion (Clock: Fosc/32)
+	MOVWF ADCON0		;Mover configutacion
+
+	BSF STATUS,RP0		;Ir a banco 1
+	BCF STATUS,RP1
+	CLRF TRISB		;Definir como PORTB salida
+
+
+	;Configurar ADCON1
+	;A/D Port Configuration Control bits
+	MOVLW b'01001110'	;A/D Port AN0/RA0
+	MOVWF ADCON1	  	;Mover configutacion
+	BSF TRISA,0 		;RA0 linea de entrada para el ADC
+
+	BCF STATUS,RP0 		;Ir banco 0
+	BCF STATUS,RP1
+	;CLRF PORTB 		;Limpiar PORTB
+	MOVLW B'00111111' 	;Display 0
+	MOVWF PORTB
+
+	;CONFIGURACION (Entradas y Salidas)
+	BSF	STATUS, 5	;Cambiar al banco 1
+	BSF	TRISC, 1	;Definir pata 1 del Puerto C como entrada
+	BSF	TRISC, 2	;Definir pata 2 del Puerto C como entrada
+	CLRF	TRISD		;Definir Puerto D como salida
+	BCF	STATUS, RP0	;Cambiar al banco 0
+	MOVLW	0X00
+	MOVWF	PORTD		;Inicializar en 0
+	MOVLW	0X00
+	MOVWF	PEOPLECOUNT	;Inicializar en 0
+	GOTO	START
+
+START
+	CALL ALARMA_INGRESO_OK
+	CALL ALARMA_TEMPERATURA_OK
+MAIN
+
+
+INGRESOS
+
+INGRESO_P
+	BTFSC	PORTC, 1	;Comprobar si el bit 1 del puerto C se encuentra encendido
+	CALL	SUMAR_INGRESO
+
+INGRESO_PD
+	BTFSC	PORTC, 1	;Comprobar si el bit 1 del puerto C sigue encendido
+	GOTO	INGRESO_PD
+
+INGRESO_N
+	BTFSC	PORTC, 2	;Comprobar si el bit 2 del puerto C se encuentra encendido
+	CALL	RESTAR_INGRESO
+
+INGRESO_ND
+	BTFSC	PORTC, 2	;Comprobar si el bit 2 del puerto C sigue encendido
+	GOTO	INGRESO_ND
+
+TEMPERATURA
+	;Temperatura
+	BSF ADCON0, 2 		; GO/DONE -> 1
+ESPERAR_TERMINAR
+	;Validar si la conversión es completa
+	BTFSC ADCON0,2 		;ADCON0 es 0?
+	GOTO ESPERAR_TERMINAR 	;No: esperar
+
+	MOVF ADRESH,W 		;Si: W=ADRESH
+	MOVWF DATOADC		;Se almacena el resultado
+	CALL CONVERT_DECIMAL	;Convertir el dato ADC a un numero 0-9
+	CALL ALARMA_TEMPERATURA
+	GOTO MAIN 		;Repetir ciclo
+
+CONVERT_DECIMAL
+	CLRF 	TEMPERATURE	;COUNT=0
+	MOVLW	D'10'
+    	MOVWF 	TEMPERATURE	;COUNT=10
+
+SUBTRACTION
+	MOVLW	D'1'
+    	SUBWF   TEMPERATURE, 1	;Restar 1 al contador de temperatura
+
+	MOVLW	D'28'
+    	SUBWF   DATOADC, 1	; Calcular: FSvalue - DATO
+    	;ZERO Flag
+	BTFSC   STATUS,Z
+	GOTO	END_SUBTRACTION	; ZERO = 1: Por lo tanto DATO = FSvalue
+	NOP			; ZERO = 0: Por lo tanto DATO <> FSvalue
+    	;CARRY Flag
+	BTFSS   STATUS,C
+	GOTO	END_SUBTRACTION	; CARRY = 0: DATO < FSvalue
+	GOTO	SUBTRACTION	; CARRY = 1: DATO > FSvalue
+
+END_SUBTRACTION
+	CLRF 	DATOADC 	;DATO=0
+	MOVF 	TEMPERATURE,W 	;W=COUNT
+	CALL 	DISPLAY 	;Decodificar el valor de DISPLAY
+	MOVWF 	PORTB 		;Escribe el valor en PORTB
+	RETURN			;NO: Regresar al inicio
+
+DISPLAY
+	ADDWF PCL,f
+	RETLW B'00111111' ;0
+	RETLW B'00111111' ;0
+	RETLW B'00000110' ;1
+	RETLW B'01011011' ;2
+	RETLW B'01001111' ;3
+	RETLW B'01100110' ;4
+	RETLW B'01101101' ;5
+	RETLW B'01111101' ;6
+	RETLW B'00000111' ;7
+	RETLW B'01101111' ;9
+	RETLW B'01101111' ;9
+	RETLW B'01101111' ;9
+	RETLW B'01101111' ;9
+	GOTO MAIN
+
+SUMAR_INGRESO
+	INCF	PEOPLECOUNT, 1	;Sumar 1 al contador de ingresos
+	CALL	ALARMA_INGRESO
+	RETURN
+
+RESTAR_INGRESO
+	MOVLW	D'1'
+    	SUBWF   PEOPLECOUNT, 1	;Restar 1 al contador de ingresos
+	CALL	ALARMA_INGRESO
+	RETURN
+
+ALARMA_INGRESO
+	MOVFW	PEOPLECOUNT
+	MOVWF	PEOPLECOUNTAUX
+
+	MOVLW	D'11'
+    	SUBWF   PEOPLECOUNTAUX, 1	; Calcular: Personas - DATO
+    	;CARRY Flag
+	BTFSS   STATUS,C
+	CALL 	ALARMA_INGRESO_OK	; CARRY = 0: DATO < FSvalue
+	BTFSC   STATUS,C
+	CALL 	ALARMA_INGRESO_MAL	; CARRY = 1: DATO > FSvalue
+	RETURN
+
+ALARMA_TEMPERATURA
+	MOVLW	D'6'
+    	SUBWF   TEMPERATURE, 1	; Calcular: Personas - DATO
+    	;CARRY Flag
+	BTFSS   STATUS,C
+	CALL 	ALARMA_TEMPERATURA_OK	; CARRY = 0: DATO < FSvalue
+	BTFSC   STATUS,C
+	CALL 	ALARMA_TEMPERATURA_MAL	; CARRY = 1: DATO > FSvalue
+	RETURN
+
+ALARMA_INGRESO_OK
+	BSF PORTD, 0
+	BCF PORTD, 1
+	RETURN
+
+ALARMA_INGRESO_MAL
+	BSF PORTD, 1
+	BCF PORTD, 0
+	RETURN
+
+ALARMA_TEMPERATURA_OK
+	BSF PORTD, 2
+	BCF PORTD, 3
+	RETURN
+
+ALARMA_TEMPERATURA_MAL
+	BSF PORTD, 3
+	BCF PORTD, 2
+	RETURN
+
+;================DELAY================
+DELAY:
+	MOVLW	.25
+	MOVWF	COUNT2
+
+LOOP2:
+	MOVLW	-.39
+	MOVWF	TMR0
+	BCF	INTCON,T0IF
+LOOP:
+	BTFSS	INTCON,T0IF
+	GOTO	LOOP
+
+	DECFSZ	COUNT2,F
+	GOTO	LOOP2
+	RETLW	0
+;=====================================
+
+
+	GOTO MAIN
+END
