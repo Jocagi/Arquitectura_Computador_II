@@ -1,0 +1,3 @@
+echo $'Description=FreeTDS \nDriver v0.91 \nDriver=/usr/lib/arm-linux-gnueabihf/odbc/libtdsodbc.so \nSetup=/usr/lib/arm-linux-gnueabihf/odbc/libtdsS.so \nfileusage=1 \ndontdlclose=1 \nUsageCount=1' | sudo tee -a /etc/odbcinst.ini
+
+echo $'deb http://raspbian.raspberrypi.org/raspbian/ buster main contrib non-free rpi\n# Uncomment line below then \'apt-get update\' to enable \'apt-get source\'\n#deb-src http://raspbian.raspberrypi.org/raspbian/ buster main contrib non-free rpi' | sudo tee /etc/apt/sources.list
