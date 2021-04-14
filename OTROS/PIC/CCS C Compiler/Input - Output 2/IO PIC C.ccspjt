@@ -1,0 +1,79 @@
+[Directories]
+Include=
+Library=
+LinkerScript=
+output=
+
+[defines]
+enabled=0
+chip=1
+D1=
+V1=
+buildcount=3
+
+[fileformats]
+forcecoff=0
+debug=4
+error=2
+object=0
+list=0
+scratch=0
+sta=1
+tre=1
+expandtree=0
+allerrors=1
+allwarnings=1
+stayupne=3
+stayupoe=0
+
+[PROJECT]
+Target=IO PIC C.hex
+Development_Mode=
+Processor_Text=PIC16F877A
+ToolSuite=CCS
+CCSVersion=5.101Pd
+Compiler=PCM
+
+[Target Data]
+BuildTool=C-COMPILER
+OptionString=+FM
+AdditionalOptionString=
+BuildRequired=1
+FileList=IO PIC C.c
+
+[IO PIC C.c]
+Type=4
+Path=
+FileList=
+BuildTool=
+OptionString=
+AdditionalOptionString=
+
+[mru-list]
+1=IO PIC C.c
+
+[Windows]
+0=0000 %S 0 0 796 451 3 0
+
+
+[CompilerVersion]
+Fixed=
+
+[Opened Files]
+1=IO PIC C.c
+t1=13
+Count=1
+
+[ProjectLog]
+Days=1
+D1=13-04-2021
+D1_L=6
+D1_L1=[84453]Project Closed.
+D1_L2=[84453]Project Opened.
+D1_L3=[84796]Started Editing.
+D1_L4=[85956]Stopped Editing.
+D1_L5=[85969]Started Editing.
+D1_L6=[85978]Project Closed.
+[Units]
+Count=1
+1=IO PIC C (main)

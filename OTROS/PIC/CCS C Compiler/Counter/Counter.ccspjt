@@ -1,0 +1,81 @@
+[Directories]
+Include=
+Library=
+LinkerScript=
+output=
+
+[defines]
+enabled=0
+chip=1
+D1=
+V1=
+buildcount=6
+
+[fileformats]
+forcecoff=0
+debug=4
+error=2
+object=0
+list=0
+scratch=0
+sta=1
+tre=1
+expandtree=0
+allerrors=1
+allwarnings=1
+stayupne=3
+stayupoe=0
+
+[PROJECT]
+Target=Counter.hex
+Development_Mode=
+Processor_Text=PIC16F877A
+ToolSuite=CCS
+CCSVersion=5.101Pd
+Compiler=PCM
+
+[Target Data]
+BuildTool=C-COMPILER
+OptionString=+FM
+AdditionalOptionString=
+BuildRequired=1
+FileList=Counter.c
+
+[Counter.c]
+Type=4
+Path=
+FileList=
+BuildTool=
+OptionString=
+AdditionalOptionString=
+
+[mru-list]
+1=Counter.c
+
+[Windows]
+0=0000 %S 0 0 796 451 3 0
+
+
+[CompilerVersion]
+Fixed=
+
+[Opened Files]
+1=..\ADC\ADC.c
+t1=1
+Count=1
+
+[ProjectLog]
+Days=2
+D1=13-04-2021
+D1_L=3
+D1_L1=[85985]Project Closed.
+D1_L2=[85986]Project Opened.
+D1_L3=[86012]Started Editing.
+D2=14-04-2021
+D2_L=3
+D2_L1=[832]Stopped Editing.
+D2_L2=[1396]Started Editing.
+D2_L3=[1676]Project Closed.
+[Units]
+Count=1
+1=Counter (main)

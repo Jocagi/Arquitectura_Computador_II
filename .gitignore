@@ -1,3 +1,13 @@
 ###ASSEMBLY###
 *.hex
 *.lst
+
+###CSS C Compiler###
+__history/
+*.cof
+*.err
+*.esym
+*.STA
+*.sym
+*.tre
+*.xsym

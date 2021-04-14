@@ -1,0 +1,41 @@
+[PROJECT]
+Target=Example CCS.hex
+Processor_Text=PIC16F877A
+CCSVersion=5.101Pd
+Compiler=PCM
+[Target Data]
+FileList=Example CCS.c
+[Example CCS.c]
+Type=4
+[mru-list]
+1=Example CCS.c
+
+[defines]
+buildcount=3
+
+[fileformats]
+forcecoff=0
+
+[ProjectLog]
+Days=3
+D1=08-04-2021
+D1_L=1
+D1_L1=[85188]Project Opened.
+D2=09-04-2021
+D2_L=1
+D2_L1=[60648]Project Closed.
+D3=13-04-2021
+D3_L=5
+D3_L1=[83017]Project Opened.
+D3_L2=[83286]Project Closed.
+D3_L3=[83286]Project Opened.
+D3_L4=[83295]Started Editing.
+D3_L5=[83654]Project Closed.
+
+[Opened Files]
+1=..\Input - Output\IO PIC C.c
+t1=1
+Count=1
+[Units]
+Count=1
+1=Example CCS (main)
