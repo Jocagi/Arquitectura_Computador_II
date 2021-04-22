@@ -10,7 +10,7 @@ __history/
 *.STA
 *.sym
 *.tre
-*.xsym\
+*.xsym
 
 ###Python###
 __pycache__/
