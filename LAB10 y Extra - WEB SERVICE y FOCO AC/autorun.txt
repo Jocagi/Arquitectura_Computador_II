@@ -1,0 +1,4 @@
+sudo nano /etc/profile
+
+En el archivo escribir:
+sudo python /home/pi/Desktop/<archivo>.py
