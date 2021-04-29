@@ -1,0 +1,21 @@
+<!DOCTYPE html> 
+<head> 
+	<title>Rpi Control</title> 
+	<link rel="stylesheet" href='../static/style.css'/> 
+</head> 
+	<body> 
+		<h1>RPi Control Panel</h1> 
+		<h2> Status </h2>
+ 
+		<h3> Raspberry Address ==>  {{ ip }}</h3>
+		<h3> Date ==>  {{ date }}</h3> 
+		<h3> Binary data ==>  {{ binary }} == {{ decimal }}</h3>
+ 		
+		<form action="/resta" method="get">
+  			<label for="fnumber">Numero:</label>
+  			<input type="text" id="number" name="number"><br><br>
+
+  			<button type="submit">Submit</button>
+		</form>
+	</body> 
+</html>
