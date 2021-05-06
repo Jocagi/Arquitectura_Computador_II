@@ -1,0 +1,90 @@
+[Directories]
+Include=
+Library=
+LinkerScript=
+output=
+
+[defines]
+enabled=0
+chip=1
+D1=
+V1=
+buildcount=1
+
+[fileformats]
+forcecoff=0
+debug=4
+error=2
+object=0
+list=0
+scratch=0
+sta=1
+tre=1
+expandtree=0
+allerrors=1
+allwarnings=1
+stayupne=3
+stayupoe=0
+
+[PROJECT]
+Target=ADC.hex
+Development_Mode=
+Processor_Text=PIC16F877A
+ToolSuite=CCS
+CCSVersion=5.101Pd
+Compiler=PCM
+
+[Target Data]
+BuildTool=C-COMPILER
+OptionString=+FM
+AdditionalOptionString=
+BuildRequired=1
+FileList=ADC.c
+
+[ADC.c]
+Type=4
+Path=
+FileList=
+BuildTool=
+OptionString=
+AdditionalOptionString=
+
+[mru-list]
+1=ADC.c
+
+[Windows]
+0=0000 %S 0 0 796 451 3 0
+
+
+[CompilerVersion]
+Fixed=
+
+[Opened Files]
+1=ADC.c
+t1=17
+Count=1
+
+[ProjectLog]
+Days=3
+D1=14-04-2021
+D1_L=7
+D1_L1=[1679]Project Closed.
+D1_L2=[1679]Project Opened.
+D1_L3=[1714]Project Closed.
+D1_L4=[1714]Project Opened.
+D1_L5=[1734]Started Editing.
+D1_L6=[1948]Stopped Editing.
+TotalEdit=4
+TotalDebug=0
+D1_E=4
+D1_D=0
+D1_L7=[1948]Project Closed.
+D2=05-05-2021
+D2_L=1
+D2_L1=[58719]Project Opened.
+D3=06-05-2021
+D3_L=1
+D3_L1=[520]Project Closed.
+[Units]
+Count=1
+1=ADC (main)
